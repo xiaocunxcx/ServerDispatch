@@ -1,0 +1,536 @@
+openapi: 3.0.3
+info:
+  title: Ascend NPU Resource Platform API
+  version: 0.1.0
+servers:
+  - url: https://api.example.internal
+security:
+  - BearerAuth: []
+paths:
+  /auth/login:
+    post:
+      summary: LDAP login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ldap_id, password]
+              properties:
+                ldap_id:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  user:
+                    $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /me:
+    get:
+      summary: Get current user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /me/ssh-key:
+    put:
+      summary: Update SSH public key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ssh_public_key]
+              properties:
+                ssh_public_key:
+                  type: string
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /servers:
+    get:
+      summary: List servers and cards
+      responses:
+        "200":
+          description: Server list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  servers:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Server"
+    post:
+      summary: Add server (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ip, access_account]
+              properties:
+                ip:
+                  type: string
+                access_account:
+                  type: string
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Server"
+  /servers/{serverId}:
+    get:
+      summary: Get server detail
+      parameters:
+        - name: serverId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Server detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Server"
+  /servers/{serverId}/discover:
+    post:
+      summary: Trigger topology discovery (admin)
+      parameters:
+        - name: serverId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Discovery result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Server"
+  /reservations:
+    get:
+      summary: List reservations
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+        - name: server_id
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: Reservations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reservations:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Reservation"
+    post:
+      summary: Create reservation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [server_id, mode, start_time, end_time]
+              properties:
+                server_id:
+                  type: string
+                mode:
+                  type: string
+                  enum: [full_machine, carpool]
+                card_index:
+                  type: integer
+                  minimum: 0
+                start_time:
+                  type: string
+                  format: date-time
+                end_time:
+                  type: string
+                  format: date-time
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reservation"
+  /reservations/{reservationId}/cancel:
+    post:
+      summary: Cancel reservation
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Canceled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reservation"
+  /reservations/{reservationId}/force-release:
+    post:
+      summary: Force release reservation (admin)
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Released
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reservation"
+  /dashboard/summary:
+    get:
+      summary: Matrix summary for UI
+      responses:
+        "200":
+          description: Summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  servers:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ServerSummary"
+  /metrics/servers/{serverId}:
+    get:
+      summary: Metrics for server cards
+      parameters:
+        - name: serverId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: window_seconds
+          in: query
+          schema:
+            type: integer
+            default: 1800
+      responses:
+        "200":
+          description: Metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metrics:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/MetricSnapshot"
+  /alerts:
+    get:
+      summary: List anomaly alerts
+      responses:
+        "200":
+          description: Alerts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alerts:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Alert"
+  /alerts/{alertId}/resolve:
+    post:
+      summary: Resolve alert (admin)
+      parameters:
+        - name: alertId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Resolved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+  /audit-logs:
+    get:
+      summary: List audit logs
+      parameters:
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: Audit logs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  logs:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AuditLog"
+  /audit-logs/export:
+    get:
+      summary: Export audit logs
+      parameters:
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: format
+          in: query
+          schema:
+            type: string
+            enum: [csv, json]
+            default: csv
+      responses:
+        "200":
+          description: Export file
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        ldap_id:
+          type: string
+        ssh_login:
+          type: string
+        display_name:
+          type: string
+        team_id:
+          type: string
+        status:
+          type: string
+    Server:
+      type: object
+      properties:
+        id:
+          type: string
+        hostname:
+          type: string
+        ip:
+          type: string
+        status:
+          type: string
+          enum: [online, offline, unknown]
+        model:
+          type: string
+        card_count:
+          type: integer
+        chip_id:
+          type: string
+        hbm_gb:
+          type: integer
+        cards:
+          type: array
+          items:
+            $ref: "#/components/schemas/NPUCard"
+    NPUCard:
+      type: object
+      properties:
+        id:
+          type: string
+        index:
+          type: integer
+        status:
+          type: string
+          enum: [free, occupied, self, offline]
+        current_reservation_id:
+          type: string
+    Reservation:
+      type: object
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        server_id:
+          type: string
+        card_id:
+          type: string
+        mode:
+          type: string
+          enum: [full_machine, carpool]
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [scheduled, active, completed, canceled, forced_release]
+        environment_hint:
+          type: string
+          example: export ASCEND_VISIBLE_DEVICES=0
+    MetricSnapshot:
+      type: object
+      properties:
+        server_id:
+          type: string
+        card_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        ai_core_util:
+          type: number
+        hbm_used:
+          type: number
+        hbm_total:
+          type: number
+        temperature:
+          type: number
+    Alert:
+      type: object
+      properties:
+        id:
+          type: string
+        server_id:
+          type: string
+        card_id:
+          type: string
+        type:
+          type: string
+          enum: [no_reservation_high_load, reservation_zero_load]
+        status:
+          type: string
+          enum: [open, resolved]
+        detected_at:
+          type: string
+          format: date-time
+        resolved_at:
+          type: string
+          format: date-time
+    AuditLog:
+      type: object
+      properties:
+        id:
+          type: string
+        actor_user_id:
+          type: string
+        action_type:
+          type: string
+        target_type:
+          type: string
+        target_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        metadata:
+          type: object
+          additionalProperties: true
+    ServerSummary:
+      type: object
+      properties:
+        server_id:
+          type: string
+        server_name:
+          type: string
+        cards:
+          type: array
+          items:
+            type: object
+            properties:
+              card_index:
+                type: integer
+              status:
+                type: string
+                enum: [free, occupied, self, offline]
+              reservation_id:
+                type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
