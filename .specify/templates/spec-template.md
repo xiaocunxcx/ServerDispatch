@@ -4,6 +4,7 @@
 **Created**: [DATE]  
 **Status**: Draft  
 **Input**: User description: "$ARGUMENTS"
+**Doc Language**: 中文为主（如需双语，先中文后英文）
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -94,6 +95,12 @@
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
+
+### Non-Functional Requirements *(mandatory)*
+
+- **NFR-001**: UX MUST remain consistent with existing patterns (state rules or references)
+- **NFR-002**: Performance targets MUST be defined (latency/throughput/memory + measurement method)
+- **NFR-003**: Testing scope MUST be specified for critical paths and regressions
 
 ### Key Entities *(include if feature involves data)*
 

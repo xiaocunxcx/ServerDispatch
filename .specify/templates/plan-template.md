@@ -2,6 +2,7 @@
 
 **Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
 **Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+**Doc Language**: 中文为主（如需双语，先中文后英文）
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
@@ -31,7 +32,11 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- [ ] 代码质量门禁已明确（格式化、静态检查、代码可维护性）
+- [ ] 测试标准已定义（覆盖范围、关键路径、回归测试要求）
+- [ ] 用户体验一致性已对齐（组件/文案规范、验收方式）
+- [ ] 性能指标与回归阈值已定义（测量方法明确）
+- [ ] 文档语言为中文优先（如需双语，中文为权威）
 
 ## Project Structure
 
