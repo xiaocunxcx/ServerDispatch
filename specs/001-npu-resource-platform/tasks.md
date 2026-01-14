@@ -29,7 +29,7 @@ description: "Task list template for feature implementation"
 **Purpose**: Project initialization and basic structure
 
 - [ ] T001 Create project structure per plan using .gitkeep in backend/cmd/api/.gitkeep, backend/internal/.gitkeep, agent/cmd/sentinel/.gitkeep, frontend/src/.gitkeep
-- [ ] T002 Initialize backend FastAPI project in backend/pyproject.toml and backend/cmd/api/main.py
+- [X] T002 Initialize backend FastAPI project in backend/pyproject.toml and backend/cmd/api/main.py
 - [ ] T003 Initialize agent Python project in agent/pyproject.toml and agent/cmd/sentinel/main.py
 - [ ] T004 Initialize frontend React/Vite scaffold in frontend/package.json, frontend/vite.config.ts, frontend/src/main.tsx
 - [ ] T005 Add environment templates in backend/.env.example, agent/.env.example, frontend/.env.example
@@ -43,17 +43,17 @@ description: "Task list template for feature implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T007 Setup settings and DB session in backend/internal/config/settings.py, backend/internal/db/session.py
-- [ ] T008 Create SQLAlchemy base and model package in backend/internal/db/base.py, backend/internal/db/models/__init__.py
-- [ ] T009 Implement core models in backend/internal/db/models/user.py, team.py, server.py, npu_card.py, reservation.py, metric_snapshot.py, audit_log.py, alert.py
-- [ ] T010 Add Alembic config and initial migration in backend/alembic.ini, backend/alembic/env.py, backend/alembic/versions/0001_initial.py
-- [ ] T011 Implement LDAP auth client and whitelist lookup in backend/internal/auth/ldap.py, backend/internal/auth/service.py
-- [ ] T012 Implement auth dependencies and admin guard in backend/internal/auth/deps.py, backend/internal/auth/permissions.py
-- [ ] T013 Build FastAPI app and router registry in backend/cmd/api/main.py, backend/internal/api/router.py
-- [ ] T014 Add API error handling and logging middleware in backend/internal/api/middleware.py, backend/internal/api/errors.py
-- [ ] T015 Implement reservation validation utilities in backend/internal/reservation/validators.py, backend/internal/reservation/conflict.py
-- [ ] T016 Create background scheduler harness in backend/internal/jobs/scheduler.py
-- [ ] T017 Add agent API router module in backend/internal/agent/routes.py and register in backend/internal/api/router.py
+- [X] T007 Setup settings and DB session in backend/internal/config/settings.py, backend/internal/db/session.py
+- [X] T008 Create SQLAlchemy base and model package in backend/internal/db/base.py, backend/internal/db/models/__init__.py
+- [X] T009 Implement core models in backend/internal/db/models/user.py, team.py, server.py, npu_card.py, reservation.py, metric_snapshot.py, audit_log.py, alert.py
+- [X] T010 Add Alembic config and initial migration in backend/alembic.ini, backend/alembic/env.py, backend/alembic/versions/0001_initial.py
+- [X] T011 Implement LDAP auth client and whitelist lookup in backend/internal/auth/ldap.py, backend/internal/auth/service.py
+- [X] T012 Implement auth dependencies and admin guard in backend/internal/auth/deps.py, backend/internal/auth/permissions.py
+- [X] T013 Build FastAPI app and router registry in backend/cmd/api/main.py, backend/internal/api/router.py
+- [X] T014 Add API error handling and logging middleware in backend/internal/api/middleware.py, backend/internal/api/errors.py
+- [X] T015 Implement reservation validation utilities in backend/internal/reservation/validators.py, backend/internal/reservation/conflict.py
+- [X] T016 Create background scheduler harness in backend/internal/jobs/scheduler.py
+- [X] T017 Add agent API router module in backend/internal/agent/routes.py and register in backend/internal/api/router.py
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -67,13 +67,13 @@ description: "Task list template for feature implementation"
 
 ### Implementation for User Story 1
 
-- [ ] T018 [US1] Implement login endpoint /auth/login in backend/internal/auth/routes.py
-- [ ] T019 [US1] Implement /me and /me/ssh-key endpoints in backend/internal/auth/routes.py
-- [ ] T020 [US1] Implement server availability list /servers in backend/internal/inventory/routes.py
-- [ ] T021 [US1] Implement reservation business rules in backend/internal/reservation/service.py
-- [ ] T022 [US1] Implement /reservations create/list/cancel in backend/internal/reservation/routes.py
-- [ ] T023 [US1] Implement reservation activation/expiration jobs in backend/internal/reservation/jobs.py
-- [ ] T024 [US1] Implement access policy API for agents in backend/internal/agent/routes.py
+- [X] T018 [US1] Implement login endpoint /auth/login in backend/internal/auth/routes.py
+- [X] T019 [US1] Implement /me and /me/ssh-key endpoints in backend/internal/auth/routes.py
+- [X] T020 [US1] Implement server availability list /servers in backend/internal/inventory/routes.py
+- [X] T021 [US1] Implement reservation business rules in backend/internal/reservation/service.py
+- [X] T022 [US1] Implement /reservations create/list/cancel in backend/internal/reservation/routes.py
+- [X] T023 [US1] Implement reservation activation/expiration jobs in backend/internal/reservation/jobs.py
+- [X] T024 [US1] Implement access policy API for agents in backend/internal/agent/routes.py
 - [ ] T025 [US1] Implement agent policy cache/polling in agent/internal/access/sync.py
 - [ ] T026 [US1] Implement authorized_keys updater in agent/internal/access/authorized_keys.py
 - [ ] T027 [US1] Wire access control workflow in agent/cmd/sentinel/main.py
@@ -95,11 +95,11 @@ description: "Task list template for feature implementation"
 
 ### Implementation for User Story 2
 
-- [ ] T033 [US2] Implement metrics ingestion endpoint in backend/internal/metrics/routes.py
-- [ ] T034 [US2] Implement metrics persistence in backend/internal/metrics/service.py
-- [ ] T035 [US2] Implement dashboard summary /dashboard/summary in backend/internal/metrics/summary.py
-- [ ] T036 [US2] Implement anomaly detection rules in backend/internal/metrics/alerts.py
-- [ ] T037 [US2] Implement alerts list /alerts in backend/internal/metrics/routes.py
+- [X] T033 [US2] Implement metrics ingestion endpoint in backend/internal/metrics/routes.py
+- [X] T034 [US2] Implement metrics persistence in backend/internal/metrics/service.py
+- [X] T035 [US2] Implement dashboard summary /dashboard/summary in backend/internal/metrics/summary.py
+- [X] T036 [US2] Implement anomaly detection rules in backend/internal/metrics/alerts.py
+- [X] T037 [US2] Implement alerts list /alerts in backend/internal/metrics/routes.py
 - [ ] T038 [US2] Implement npu-smi parser in agent/internal/metrics/parser.py
 - [ ] T039 [US2] Implement periodic metrics collector in agent/internal/metrics/collector.py
 - [ ] T040 [US2] Implement agent heartbeat reporting in agent/internal/heartbeat/client.py
@@ -119,15 +119,15 @@ description: "Task list template for feature implementation"
 
 ### Implementation for User Story 3
 
-- [ ] T044 [US3] Extend API contract for admin endpoints in specs/001-npu-resource-platform/contracts/openapi.yaml
-- [ ] T045 [US3] Implement whitelist admin endpoints in backend/internal/auth/admin_routes.py
-- [ ] T046 [US3] Implement server add/discover endpoints in backend/internal/inventory/admin_routes.py
-- [ ] T047 [US3] Implement topology discovery service in backend/internal/inventory/discovery.py
-- [ ] T048 [US3] Implement force-release endpoint in backend/internal/reservation/admin_routes.py
-- [ ] T049 [US3] Implement audit logging middleware in backend/internal/audit/middleware.py and backend/internal/audit/service.py
-- [ ] T050 [US3] Implement audit log list/export in backend/internal/audit/routes.py
-- [ ] T051 [US3] Implement audit retention job in backend/internal/audit/retention.py
-- [ ] T052 [US3] Implement alert resolve endpoint in backend/internal/metrics/admin_routes.py
+- [X] T044 [US3] Extend API contract for admin endpoints in specs/001-npu-resource-platform/contracts/openapi.yaml
+- [X] T045 [US3] Implement whitelist admin endpoints in backend/internal/auth/admin_routes.py
+- [X] T046 [US3] Implement server add/discover endpoints in backend/internal/inventory/admin_routes.py
+- [X] T047 [US3] Implement topology discovery service in backend/internal/inventory/discovery.py
+- [X] T048 [US3] Implement force-release endpoint in backend/internal/reservation/admin_routes.py
+- [X] T049 [US3] Implement audit logging middleware in backend/internal/audit/middleware.py and backend/internal/audit/service.py
+- [X] T050 [US3] Implement audit log list/export in backend/internal/audit/routes.py
+- [X] T051 [US3] Implement audit retention job in backend/internal/audit/retention.py
+- [X] T052 [US3] Implement alert resolve endpoint in backend/internal/metrics/admin_routes.py
 - [ ] T053 [US3] Build whitelist admin UI in frontend/src/pages/AdminUsers.tsx, frontend/src/services/admin.ts
 - [ ] T054 [US3] Build server admin UI in frontend/src/pages/AdminServers.tsx, frontend/src/services/servers.ts
 - [ ] T055 [US3] Build force-release UI in frontend/src/components/ForceReleaseButton.tsx
@@ -142,10 +142,10 @@ description: "Task list template for feature implementation"
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T058 Update quickstart to Python/FastAPI/agent in specs/001-npu-resource-platform/quickstart.md
-- [ ] T059 Add API rate limit for auth/reservation in backend/internal/api/middleware.py
-- [ ] T060 Add metrics retention cleanup in backend/internal/metrics/retention.py
-- [ ] T061 Validate quickstart steps and update notes in specs/001-npu-resource-platform/quickstart.md
+- [X] T058 Update quickstart to Python/FastAPI/agent in specs/001-npu-resource-platform/quickstart.md
+- [X] T059 Add API rate limit for auth/reservation in backend/internal/api/middleware.py
+- [X] T060 Add metrics retention cleanup in backend/internal/metrics/retention.py
+- [X] T061 Validate quickstart steps and update notes in specs/001-npu-resource-platform/quickstart.md
 
 ---
 

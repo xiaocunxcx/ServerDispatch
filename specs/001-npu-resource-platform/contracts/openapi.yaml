@@ -41,6 +41,62 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /admin/whitelist:
+    get:
+      summary: List whitelisted users (admin)
+      responses:
+        "200":
+          description: Whitelisted users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+    post:
+      summary: Add whitelisted user (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ldap_id]
+              properties:
+                ldap_id:
+                  type: string
+                ssh_login:
+                  type: string
+                display_name:
+                  type: string
+                team_id:
+                  type: string
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /admin/whitelist/{ldap_id}:
+    delete:
+      summary: Disable whitelisted user (admin)
+      parameters:
+        - name: ldap_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Disabled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
   /me:
     get:
       summary: Get current user
@@ -255,6 +311,40 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/ServerSummary"
+  /agent/access-policy:
+    get:
+      summary: Access policy for agent
+      security: []
+      parameters:
+        - name: server_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Access policy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccessPolicyResponse"
+  /metrics/ingest:
+    post:
+      summary: Ingest metrics from agent
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MetricIngestRequest"
+      responses:
+        "200":
+          description: Ingested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetricIngestResponse"
   /metrics/servers/{serverId}:
     get:
       summary: Metrics for server cards
@@ -468,6 +558,74 @@ components:
           type: number
         temperature:
           type: number
+    MetricSnapshotIngest:
+      type: object
+      properties:
+        card_index:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        ai_core_util:
+          type: number
+        hbm_used:
+          type: number
+        hbm_total:
+          type: number
+        temperature:
+          type: number
+    MetricIngestRequest:
+      type: object
+      properties:
+        server_id:
+          type: string
+        snapshots:
+          type: array
+          items:
+            $ref: "#/components/schemas/MetricSnapshotIngest"
+    MetricIngestResponse:
+      type: object
+      properties:
+        ingested_count:
+          type: integer
+    AccessPolicyEntry:
+      type: object
+      properties:
+        reservation_id:
+          type: string
+        user_id:
+          type: string
+        ssh_login:
+          type: string
+        ssh_public_key:
+          type: string
+        mode:
+          type: string
+          enum: [full_machine, carpool]
+        card_id:
+          type: string
+        card_index:
+          type: integer
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        environment_hint:
+          type: string
+    AccessPolicyResponse:
+      type: object
+      properties:
+        server_id:
+          type: string
+        generated_at:
+          type: string
+          format: date-time
+        reservations:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccessPolicyEntry"
     Alert:
       type: object
       properties:

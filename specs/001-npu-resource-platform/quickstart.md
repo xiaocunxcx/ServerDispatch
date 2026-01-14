@@ -6,7 +6,7 @@
 
 - Linux 服务器用于控制面与代理运行
 - Node.js 18+（前端开发）
-- Go 1.22+
+- Python 3.11+（控制面与代理）
 - PostgreSQL 16
 
 ## 本地开发启动（示例）
@@ -21,7 +21,11 @@
 
 ```bash
 cd /Users/eric/Workspaces/Github/ServerDispatch/backend
-go run ./cmd/api
+python -m venv .venv
+source .venv/bin/activate
+pip install fastapi uvicorn[standard] sqlalchemy alembic psycopg[binary] pydantic pydantic-settings ldap3 python-jose[cryptography]
+cp .env.example .env
+python -m uvicorn cmd.api.main:app --reload --port 8000
 ```
 
 ### 3) 启动前端
@@ -36,8 +40,16 @@ npm run dev
 
 ```bash
 cd /Users/eric/Workspaces/Github/ServerDispatch/agent
-go run ./cmd/sentinel --server-ip 10.0.0.1 --access-account admin
+python -m venv .venv
+source .venv/bin/activate
+pip install pydantic pydantic-settings
+python -m cmd.sentinel.main --server-ip 10.0.0.1 --access-account admin
 ```
+
+## 备注
+
+- 控制面与代理均使用 Python；如需调整依赖版本，请以 `backend/pyproject.toml` 为准。
+- 代理启动示例为占位，需确保 agent 端实现可执行入口后再运行。
 
 ## 验证路径
 
