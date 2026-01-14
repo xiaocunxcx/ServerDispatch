@@ -24,16 +24,45 @@ description: "Task list template for feature implementation"
 - **Web app**: `backend/`, `frontend/`, `agent/` at repository root
 - Paths shown below align with plan.md structure
 
+## Frontend Plan (前端计划)
+
+### 目标与范围
+
+- 覆盖 US1-US3 的前端页面与组件，围绕登录/预约/监控/管理闭环
+- 仅前端实现，不引入新的后端 API（如需补充用 TODO 标记）
+- 每完成一项任务提供自验证步骤（手动或测试用例）
+
+### 架构与数据流
+
+- React + Vite + TypeScript，页面 -> services -> API 请求封装
+- AuthContext 管理 token/user/isAdmin，并驱动导航与权限提示
+- API base 通过 `VITE_API_BASE_URL`；管理员列表通过 `VITE_ADMIN_LDAP_IDS`
+- 页面统一处理 loading/error 状态，保持一致交互体验
+
+### 页面与组件拆分
+
+- Pages: Login, Dashboard, Reservation, Profile, AdminUsers, AdminServers, AuditLogs
+- Components: AppShell, ServerMatrix, MetricsPanel, AlertBadge, ReservationSuccessModal,
+  ForceReleaseButton, AlertResolveButton
+- Services: auth, user, reservations, metrics, alerts, admin, servers, audit
+- Utils/Hooks: date format, interval refresh
+
+### 验证路径（按 user story）
+
+- US1: 登录 -> 更新 SSH key -> 创建/取消预约 -> carpool env hint -> 无 SSH key 禁用预约
+- US2: Dashboard 矩阵展示 -> metrics 30 秒刷新 -> alerts 高亮/resolve
+- US3: whitelist 增删 -> server 添加/发现 -> force-release -> audit export
+
 ## Phase 1: Setup (Shared Infrastructure)
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per plan using .gitkeep in backend/cmd/api/.gitkeep, backend/internal/.gitkeep, agent/cmd/sentinel/.gitkeep, frontend/src/.gitkeep
+- [X] T001 Create project structure per plan using .gitkeep in backend/cmd/api/.gitkeep, backend/internal/.gitkeep, agent/cmd/sentinel/.gitkeep, frontend/src/.gitkeep
 - [X] T002 Initialize backend FastAPI project in backend/pyproject.toml and backend/cmd/api/main.py
-- [ ] T003 Initialize agent Python project in agent/pyproject.toml and agent/cmd/sentinel/main.py
-- [ ] T004 Initialize frontend React/Vite scaffold in frontend/package.json, frontend/vite.config.ts, frontend/src/main.tsx
-- [ ] T005 Add environment templates in backend/.env.example, agent/.env.example, frontend/.env.example
-- [ ] T006 Configure lint/format in backend/pyproject.toml, frontend/eslint.config.js, frontend/.prettierrc
+- [X] T003 Initialize agent Python project in agent/pyproject.toml and agent/cmd/sentinel/main.py
+- [X] T004 Initialize frontend React/Vite scaffold in frontend/package.json, frontend/vite.config.ts, frontend/src/main.tsx
+- [X] T005 Add environment templates in backend/.env.example, agent/.env.example, frontend/.env.example
+- [X] T006 Configure lint/format in backend/pyproject.toml, frontend/eslint.config.js, frontend/.prettierrc
 
 ---
 
@@ -77,11 +106,11 @@ description: "Task list template for feature implementation"
 - [ ] T025 [US1] Implement agent policy cache/polling in agent/internal/access/sync.py
 - [ ] T026 [US1] Implement authorized_keys updater in agent/internal/access/authorized_keys.py
 - [ ] T027 [US1] Wire access control workflow in agent/cmd/sentinel/main.py
-- [ ] T028 [US1] Build login flow in frontend/src/services/auth.ts, frontend/src/pages/Login.tsx
-- [ ] T029 [US1] Build SSH key management UI in frontend/src/pages/Profile.tsx, frontend/src/services/user.ts
-- [ ] T030 [US1] Build reservation UI in frontend/src/pages/Reservation.tsx, frontend/src/services/reservations.ts
-- [ ] T031 [US1] Add carpool env hint modal in frontend/src/components/ReservationSuccessModal.tsx
-- [ ] T032 [US1] Disable reservation when no SSH key in frontend/src/pages/Reservation.tsx
+- [X] T028 [US1] Build login flow in frontend/src/services/auth.ts, frontend/src/pages/Login.tsx
+- [X] T029 [US1] Build SSH key management UI in frontend/src/pages/Profile.tsx, frontend/src/services/user.ts
+- [X] T030 [US1] Build reservation UI in frontend/src/pages/Reservation.tsx, frontend/src/services/reservations.ts
+- [X] T031 [US1] Add carpool env hint modal in frontend/src/components/ReservationSuccessModal.tsx
+- [X] T032 [US1] Disable reservation when no SSH key in frontend/src/pages/Reservation.tsx
 
 **Checkpoint**: User Story 1 should be functional and independently verifiable
 
@@ -103,9 +132,9 @@ description: "Task list template for feature implementation"
 - [ ] T038 [US2] Implement npu-smi parser in agent/internal/metrics/parser.py
 - [ ] T039 [US2] Implement periodic metrics collector in agent/internal/metrics/collector.py
 - [ ] T040 [US2] Implement agent heartbeat reporting in agent/internal/heartbeat/client.py
-- [ ] T041 [US2] Build matrix dashboard in frontend/src/pages/Dashboard.tsx, frontend/src/components/ServerMatrix.tsx
-- [ ] T042 [US2] Build metrics panel with refresh in frontend/src/components/MetricsPanel.tsx, frontend/src/services/metrics.ts
-- [ ] T043 [US2] Highlight anomaly alerts in frontend/src/components/AlertBadge.tsx, frontend/src/services/alerts.ts
+- [X] T041 [US2] Build matrix dashboard in frontend/src/pages/Dashboard.tsx, frontend/src/components/ServerMatrix.tsx
+- [X] T042 [US2] Build metrics panel with refresh in frontend/src/components/MetricsPanel.tsx, frontend/src/services/metrics.ts
+- [X] T043 [US2] Highlight anomaly alerts in frontend/src/components/AlertBadge.tsx, frontend/src/services/alerts.ts
 
 **Checkpoint**: User Story 2 should be functional and independently verifiable
 
@@ -128,11 +157,11 @@ description: "Task list template for feature implementation"
 - [X] T050 [US3] Implement audit log list/export in backend/internal/audit/routes.py
 - [X] T051 [US3] Implement audit retention job in backend/internal/audit/retention.py
 - [X] T052 [US3] Implement alert resolve endpoint in backend/internal/metrics/admin_routes.py
-- [ ] T053 [US3] Build whitelist admin UI in frontend/src/pages/AdminUsers.tsx, frontend/src/services/admin.ts
-- [ ] T054 [US3] Build server admin UI in frontend/src/pages/AdminServers.tsx, frontend/src/services/servers.ts
-- [ ] T055 [US3] Build force-release UI in frontend/src/components/ForceReleaseButton.tsx
-- [ ] T056 [US3] Build audit export UI in frontend/src/pages/AuditLogs.tsx, frontend/src/services/audit.ts
-- [ ] T057 [US3] Build alert resolve UI in frontend/src/components/AlertResolveButton.tsx
+- [X] T053 [US3] Build whitelist admin UI in frontend/src/pages/AdminUsers.tsx, frontend/src/services/admin.ts
+- [X] T054 [US3] Build server admin UI in frontend/src/pages/AdminServers.tsx, frontend/src/services/servers.ts
+- [X] T055 [US3] Build force-release UI in frontend/src/components/ForceReleaseButton.tsx
+- [X] T056 [US3] Build audit export UI in frontend/src/pages/AuditLogs.tsx, frontend/src/services/audit.ts
+- [X] T057 [US3] Build alert resolve UI in frontend/src/components/AlertResolveButton.tsx
 
 **Checkpoint**: All user stories should now be independently functional
 

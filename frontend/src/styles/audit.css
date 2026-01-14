@@ -1,0 +1,53 @@
+.audit-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.audit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.audit-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.audit-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.audit-list {
+  padding: 1rem 1.2rem;
+}
+
+.audit-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.audit-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.6fr;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.8rem;
+}
+
+.audit-row:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 900px) {
+  .audit-row {
+    grid-template-columns: 1fr;
+  }
+}

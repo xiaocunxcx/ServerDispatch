@@ -1,0 +1,68 @@
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.2rem;
+}
+
+.matrix-card {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 18px;
+  padding: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+.matrix-card.is-selected,
+.matrix-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(31, 27, 22, 0.12);
+}
+
+.matrix-card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.matrix-card-sub {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+.matrix-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  gap: 0.6rem;
+}
+
+.matrix-slot {
+  border-radius: 12px;
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  color: #fff;
+}
+
+.status-free {
+  background: #1f8a70;
+}
+
+.status-occupied {
+  background: #c0392b;
+}
+
+.status-self {
+  background: #136f8b;
+}
+
+.status-offline {
+  background: #7f8c8d;
+}

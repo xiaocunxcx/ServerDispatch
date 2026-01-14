@@ -1,0 +1,36 @@
+.alert-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.alert-count {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  background: rgba(31, 27, 22, 0.1);
+}
+
+.alert-active {
+  background: rgba(211, 84, 44, 0.2);
+  color: var(--accent);
+}
+
+.alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.alert-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.alert-item:last-child {
+  border-bottom: none;
+}
