@@ -4,7 +4,10 @@ from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
+from internal.api.errors import ApiError
+from internal.auth.passwords import hash_password
 from internal.auth.permissions import require_admin
+from internal.config.settings import get_settings
 from internal.db.models.user import User, UserStatus
 from internal.db.session import get_db
 
@@ -16,6 +19,7 @@ class WhitelistUserRequest(BaseModel):
     ssh_login: str | None = None
     display_name: str | None = None
     team_id: str | None = None
+    password: str | None = None
 
 
 class WhitelistUserResponse(BaseModel):
@@ -59,6 +63,11 @@ def add_whitelist_user(
     admin: User = Depends(require_admin),
 ) -> WhitelistUserResponse:
     _ = admin
+    settings = get_settings()
+    password = payload.password.strip() if payload.password is not None else None
+    if password == "":
+        password = None
+
     user = db.query(User).filter(User.ldap_id == payload.ldap_id).one_or_none()
     if user:
         user.status = UserStatus.active
@@ -68,13 +77,18 @@ def add_whitelist_user(
             user.display_name = payload.display_name
         if payload.team_id is not None:
             user.team_id = payload.team_id
+        if password is not None:
+            user.password_hash = hash_password(password)
     else:
+        if settings.auth_mode == "local" and not password:
+            raise ApiError(code="password_required", message="Password required", status_code=400)
         user = User(
             ldap_id=payload.ldap_id,
             ssh_login=payload.ssh_login or payload.ldap_id,
             display_name=payload.display_name,
             team_id=payload.team_id,
             status=UserStatus.active,
+            password_hash=hash_password(password) if password else None,
         )
         db.add(user)
 

@@ -178,6 +178,19 @@ description: "Task list template for feature implementation"
 
 ---
 
+## Phase N+1: Requirement Update - Local Auth + SQLite Defaults
+
+**Purpose**: Align auth + storage defaults with updated requirements
+
+- [X] T062 Add local auth mode + sqlite defaults in backend/internal/config/settings.py, backend/internal/db/session.py, backend/.env.example
+- [X] T063 Add password hash to users in backend/internal/db/models/user.py and backend/alembic/versions/0002_add_password_hash.py
+- [X] T064 Enable admin password management in backend/internal/auth/admin_routes.py and backend/internal/auth/service.py
+- [X] T065 Update docs for optional LDAP + sqlite defaults in specs/001-npu-resource-platform/spec.md, plan.md, research.md, data-model.md, quickstart.md, contracts/openapi.yaml
+- [X] T066 Add local auth tests in backend/tests/test_auth_local.py
+- [X] T067 Update frontend auth wording + admin password field in frontend/src/pages/Login.tsx, frontend/src/pages/Profile.tsx, frontend/src/pages/AdminUsers.tsx, frontend/src/services/admin.ts
+
+---
+
 ## Dependencies & Execution Order
 
 ### Phase Dependencies

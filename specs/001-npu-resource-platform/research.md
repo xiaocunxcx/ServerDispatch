@@ -23,15 +23,15 @@
 
 ## 决策 4: 身份与登录策略
 
-- **Decision**: 仅 LDAP 白名单可登录；SSH 登录账号与 Web 登录账号一致。
-- **Rationale**: 满足白名单约束并减少账号映射复杂度。
-- **Alternatives considered**: 邮箱登录；团队共享账号。
+- **Decision**: 默认本地白名单账号+密码登录；LDAP 可选；SSH 登录账号与 Web 登录账号一致。
+- **Rationale**: 降低部署成本，同时保留企业 LDAP 对接能力。
+- **Alternatives considered**: 仅 LDAP 登录；团队共享账号。
 
 ## 决策 5: 存储与一致性
 
-- **Decision**: 使用 PostgreSQL 保存预约、资产、审计日志与指标摘要。
-- **Rationale**: 预约冲突需要强事务一致性与范围查询能力。
-- **Alternatives considered**: MySQL；SQLite 单机。
+- **Decision**: 默认使用 SQLite；支持 PostgreSQL/MySQL 作为可选部署。
+- **Rationale**: 本地部署成本低，同时保留强一致事务数据库选项。
+- **Alternatives considered**: 仅 PostgreSQL；仅 SQLite。
 
 ## 决策 6: 指标采集与刷新节奏
 

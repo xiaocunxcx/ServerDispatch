@@ -74,6 +74,8 @@ paths:
                   type: string
                 team_id:
                   type: string
+                password:
+                  type: string
       responses:
         "201":
           description: Created

@@ -15,7 +15,8 @@
 
 **Language/Version**: Python 3.11（控制面与代理）; TypeScript 5.4（前端）  
 **Primary Dependencies**: FastAPI, SQLAlchemy, Alembic, Pydantic, React, Vite  
-**Storage**: PostgreSQL 16  
+**Storage**: SQLite (default), PostgreSQL/MySQL optional  
+**Auth**: Local whitelist password (default), LDAP optional  
 **Testing**: pytest, pytest-asyncio, Vitest, Playwright（关键路径 UI）  
 **Target Platform**: Linux 服务器（控制面与代理），现代浏览器（Web UI）
 **Project Type**: web（frontend + backend + agent）  

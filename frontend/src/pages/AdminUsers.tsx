@@ -19,6 +19,7 @@ export default function AdminUsers() {
     ssh_login: "",
     display_name: "",
     team_id: "",
+    password: "",
   });
 
   const loadUsers = useCallback(async () => {
@@ -48,8 +49,9 @@ export default function AdminUsers() {
         ssh_login: form.ssh_login.trim() || undefined,
         display_name: form.display_name.trim() || undefined,
         team_id: form.team_id.trim() || undefined,
+        password: form.password.trim() || undefined,
       });
-      setForm({ ldap_id: "", ssh_login: "", display_name: "", team_id: "" });
+      setForm({ ldap_id: "", ssh_login: "", display_name: "", team_id: "", password: "" });
       await loadUsers();
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to add user";
@@ -87,7 +89,7 @@ export default function AdminUsers() {
       <div className="admin-header">
         <div>
           <h1 className="page-title">Whitelist Management</h1>
-          <p className="page-subtitle">Add, enable, or disable LDAP accounts.</p>
+          <p className="page-subtitle">Add, enable, or disable whitelist accounts.</p>
         </div>
         <button className="secondary-button" type="button" onClick={loadUsers}>
           Refresh
@@ -100,7 +102,7 @@ export default function AdminUsers() {
         <form className="card admin-card" onSubmit={handleSubmit}>
           <h2>Add user</h2>
           <label>
-            LDAP ID
+            Account ID
             <input
               value={form.ldap_id}
               onChange={(event) => setForm({ ...form, ldap_id: event.target.value })}
@@ -126,6 +128,14 @@ export default function AdminUsers() {
             <input
               value={form.team_id}
               onChange={(event) => setForm({ ...form, team_id: event.target.value })}
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              value={form.password}
+              onChange={(event) => setForm({ ...form, password: event.target.value })}
             />
           </label>
           <button className="primary-button" type="submit" disabled={busy}>

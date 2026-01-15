@@ -6,6 +6,7 @@ export type WhitelistUserInput = {
   ssh_login?: string | null;
   display_name?: string | null;
   team_id?: string | null;
+  password?: string | null;
 };
 
 export async function listWhitelist(): Promise<User[]> {

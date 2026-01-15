@@ -10,6 +10,7 @@
 - ldap_id（唯一）
 - ssh_login（与 Web 登录一致）
 - ssh_public_key
+- password_hash
 - display_name
 - team_id
 - status（active/disabled）

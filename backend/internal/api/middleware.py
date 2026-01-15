@@ -6,6 +6,7 @@ import time
 from typing import Callable
 
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
@@ -94,6 +95,14 @@ def add_exception_handlers(app: FastAPI) -> None:
 
 
 def add_middleware(app: FastAPI) -> None:
+    settings = get_settings()
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.cors_allow_origins,
+        allow_methods=settings.cors_allow_methods,
+        allow_headers=settings.cors_allow_headers,
+        allow_credentials=False,
+    )
     app.add_middleware(RequestLoggingMiddleware)
     app.add_middleware(AuditLogMiddleware)
     app.add_middleware(RateLimitMiddleware)

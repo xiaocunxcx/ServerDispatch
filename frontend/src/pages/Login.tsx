@@ -39,15 +39,15 @@ export default function Login() {
         <span className="login-kicker">Secure Access</span>
         <h1 className="page-title">Sign in to the NPU Platform</h1>
         <p className="page-subtitle">
-          Use your LDAP credentials to access reservations, telemetry, and admin
+          Use your account credentials to access reservations, telemetry, and admin
           controls.
         </p>
         <form className="login-form" onSubmit={handleSubmit}>
           <label>
-            LDAP ID
+            Account ID
             <input
               type="text"
-              placeholder="your.ldap"
+              placeholder="account.id"
               value={ldapId}
               onChange={(event) => setLdapId(event.target.value)}
               required

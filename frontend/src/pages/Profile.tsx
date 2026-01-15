@@ -53,7 +53,7 @@ export default function Profile() {
           <h2>Account</h2>
           <div className="profile-meta">
             <div>
-              <span>LDAP</span>
+              <span>Account ID</span>
               <strong>{user.ldap_id}</strong>
             </div>
             <div>

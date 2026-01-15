@@ -36,8 +36,12 @@ def upgrade() -> None:
         "teams",
         sa.Column("id", sa.String(length=36), primary_key=True),
         sa.Column("name", sa.String(length=200), nullable=False, unique=True),
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.text("now()")),
-        sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.text("now()")),
+        sa.Column(
+            "created_at", sa.DateTime(timezone=True), server_default=sa.text("CURRENT_TIMESTAMP")
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(timezone=True), server_default=sa.text("CURRENT_TIMESTAMP")
+        ),
     )
 
     op.create_table(
@@ -49,8 +53,12 @@ def upgrade() -> None:
         sa.Column("display_name", sa.String(length=200), nullable=True),
         sa.Column("team_id", sa.String(length=36), sa.ForeignKey("teams.id")),
         sa.Column("status", user_status, nullable=False),
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.text("now()")),
-        sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.text("now()")),
+        sa.Column(
+            "created_at", sa.DateTime(timezone=True), server_default=sa.text("CURRENT_TIMESTAMP")
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(timezone=True), server_default=sa.text("CURRENT_TIMESTAMP")
+        ),
     )
 
     op.create_table(
@@ -64,8 +72,12 @@ def upgrade() -> None:
         sa.Column("card_count", sa.Integer(), nullable=True),
         sa.Column("chip_id", sa.String(length=100), nullable=True),
         sa.Column("hbm_gb", sa.Integer(), nullable=True),
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.text("now()")),
-        sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.text("now()")),
+        sa.Column(
+            "created_at", sa.DateTime(timezone=True), server_default=sa.text("CURRENT_TIMESTAMP")
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(timezone=True), server_default=sa.text("CURRENT_TIMESTAMP")
+        ),
     )
 
     op.create_table(
@@ -89,8 +101,12 @@ def upgrade() -> None:
         sa.Column("end_time", sa.DateTime(timezone=True), nullable=False),
         sa.Column("status", reservation_status, nullable=False),
         sa.Column("environment_hint", sa.String(length=200), nullable=True),
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.text("now()")),
-        sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.text("now()")),
+        sa.Column(
+            "created_at", sa.DateTime(timezone=True), server_default=sa.text("CURRENT_TIMESTAMP")
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(timezone=True), server_default=sa.text("CURRENT_TIMESTAMP")
+        ),
     )
 
     op.create_table(
